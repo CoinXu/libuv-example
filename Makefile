@@ -1,3 +1,5 @@
+vpath %.c ./:./src
+
 objects = main.o
 
 entry: $(objects)
