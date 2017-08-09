@@ -12,19 +12,19 @@ RUN apt-get update \
 	\
 # automake
 	&& echo "$LOG_MARKED automake installing..." \
-    && apt-get install -y automake \
+	&& apt-get install -y automake \
     \
 # build-essential
 	&& echo "$LOG_MARKED build-essential installing..." \
-    && apt-get install -y build-essential \
+	&& apt-get install -y build-essential \
     \
 # gcc
 	&& echo "$LOG_MARKED automake installing..." \
-    && apt-get install -y automake \
+	&& apt-get install -y automake \
     \
 # libtool
 	&& echo "$LOG_MARKED libtool installing..." \
-    && apt-get install -y libtool \
+	&& apt-get install -y libtool \
 # clean
 	&& echo "$LOG_MARKED clean..." \
 	&& rm -rf /var/lib/apt/lists/*
