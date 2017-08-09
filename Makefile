@@ -1,9 +1,6 @@
-vpath %.c ./:./src
+vpath %.c ./src
 
-objects = main.o
+entry := entry.out#
 
-entry: $(objects)
-	cc -o entry $(objects)
-
-main.o: ./src/main.c
-	cc -c ./src/main.c
+main: ./src/main.c
+	gcc ./src/main.c -o $(entry) -luv
