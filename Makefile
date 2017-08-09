@@ -1,6 +1,5 @@
 vpath %.c ./src
 
-entry := entry.out#
-
+entry := ./test/entry.out#
 main: ./src/main.c
 	gcc ./src/main.c -o $(entry) -luv
