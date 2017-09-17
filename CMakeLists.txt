@@ -8,7 +8,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set(
         SOURCE_FILES
         # ./src/basics-of-libuv/helloworld/main.c
-        ./src/basics-of-libuv/idle-basic/main.c
+        # ./src/basics-of-libuv/idle-basic/main.c
+        src/file-system/main.c
 )
 
 # execute
