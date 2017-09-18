@@ -2,7 +2,9 @@
 
 文件读取和写入涉及到几个最基本的接口：
 ```c
-// 打开文件
+//
+// 函数原型定义如下
+//
 int uv_fs_open(
   uv_loop_t* loop,
   uv_fs_t* req,
@@ -10,7 +12,6 @@ int uv_fs_open(
   int flags,
   int mode, uv_fs_cb cb
 );
-// 读取文件
 int uv_fs_read(
   uv_loop_t* loop,
   uv_fs_t* req,
@@ -20,7 +21,6 @@ int uv_fs_read(
   int64_t offset,
   uv_fs_cb cb
 );
-// 写入文件
 int uv_fs_write(
   uv_loop_t* loop,
   uv_fs_t* req,
@@ -30,8 +30,22 @@ int uv_fs_write(
   int64_t offset,
   uv_fs_cb cb
 );
-// 关闭文件
 int uv_fs_close(uv_loop_t* loop, uv_fs_t* req, uv_file file, uv_fs_cb cb);
+
+//
+// 数据结构定义如下
+//
+struct uv_fs_s {
+  UV_REQ_FIELDS
+  uv_fs_type fs_type;
+  uv_loop_t* loop;
+  uv_fs_cb cb;
+  ssize_t result;
+  void* ptr;
+  const char* path;
+  uv_stat_t statbuf;  /* Stores the result of uv_fs_stat() and uv_fs_fstat(). */
+  UV_FS_PRIVATE_FIELDS
+};
 ```
 还有诸多文件相关的接口，与linux系统函数一一对应。[详见](http://docs.libuv.org/en/v1.x/fs.html#api)
 
@@ -154,3 +168,11 @@ uv_fs_write(uv_default_loop(), &write_req, STDOUT_FILENO, &iov, 1, -1, on_write)
 uv_fs_t close_req;
 uv_fs_close(uv_default_loop(), &close_req, open_req.result, NULL);
 ```
+
+__注__:
+1. 所有的函数都可以不传`uv_fs_cb`，此时为同步调用
+2. 不同的函数传入的`uv_fs_t* req`在回调函数中其`req->result`的代表的值不同(虽然它们都是int类型)。
+   `uv_fs_open`中的`req->result`保存的是打开文件的描述符，
+   `uv_fs_read`中的`req->result`保存的是已读取内容的数量，
+   `uv_fs_write`中的`req->result`保存的是已写入内容的数量。
+3. 以上所有函数只有同步调用时(`uv_fs_cb`传入`NULL`)才有返回值
